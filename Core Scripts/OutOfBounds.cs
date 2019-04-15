@@ -2,57 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OutOfBounds : MonoBehaviour
+public class OutOfBounds : DamageEventInfo
 {
-    public GameObject player1;
-    public GameObject player2;
-    public float theDamage;
-    bool takingDamage = false;
-    bool p1Damage = false;
-    bool p2Damage = false;
-
-    void Update()
-    {
-        if (takingDamage)
-        {
-            if (p1Damage)
-            {
-                player1.GetComponent<Player1Health>().TakeDamage(theDamage);
-            }
-            else
-            {
-                p1Damage = false;
-            }
-
-            if (p2Damage)
-            {
-                player2.GetComponent<Player2Health>().TakeDamage(theDamage);
-            }
-            else
-            {
-                p2Damage = false;
-            }
-
-            takingDamage = false;
-        }
-    }
-
-    public void OnTriggerStay2D(Collider2D other)
+    public void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
         {
             takingDamage = true;
 
-            if (other.gameObject.name == "Player1")
+            if (other.gameObject.name == "Player1(Clone)")
             {
                 p1Damage = true;
             }
 
-            if (other.gameObject.name == "Player2")
+            if (other.gameObject.name == "Player2(Clone)")
             {
                 p2Damage = true;
             }
         }
     }
 
+    public void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.gameObject.name == "Player1(Clone)")
+        {
+            takingDamage = true;
+            p1Damage = true;
+        }
+
+        if (other.gameObject.name == "Player2(Clone)")
+        {
+            takingDamage = true;
+            p2Damage = true;
+        }
+    }
+
+    public void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.name == "Player1(Clone)")
+        {
+            takingDamage = false;
+            p1Damage = false;
+        }
+
+        if (other.gameObject.name == "Player2(Clone)")
+        {
+            takingDamage = false;
+            p2Damage = false;
+        }
+    }
 }
