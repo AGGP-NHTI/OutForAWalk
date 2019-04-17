@@ -1,0 +1,16 @@
+--Power Up List--
+
+Detailed as follows: Name (Proposed sprites that fit the theme, of course up to the
+artist's discretion if something else works better)
+
+====================================================================================
+- Health Increase (Health Pack, Drink or Food, Bandage)
+- Stamina Increase (Beer, Chocolate, or Pills {Steroids})
+- Temp. Invincibility (Pills, Chocolate, or something else)
+- Super Fast (Running shoes, Energy Drink)
+- Owner/Pet Swapper (Something similar to the "Uno Reverse" card, but as a tile)
+- Ranged Weapon; Owner Only (Gun, Crossbow, Ball {maybe effect on dog to run after it})
+- Melee Weapon; Owner Only (Knife, Bat, Crowbar, Severed Zombie Arm)
+- Temp. Distance Increase (Extended Leash, Long Rope, or something)
+- Fake Health Increase (Slightly altered version of a Health Increase sprite)
+- Fake Stamina Increase (Slightly altered version of a Stamina Increase sprite)
