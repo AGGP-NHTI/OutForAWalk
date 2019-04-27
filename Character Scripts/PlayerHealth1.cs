@@ -9,8 +9,6 @@ public class PlayerHealth1 : MonoBehaviour
 
     public void Update()
     {
-        Debug.Log(g._player1Instance);
-
         if (dam.takingDamage)
         {
             if (dam.p1Damage)

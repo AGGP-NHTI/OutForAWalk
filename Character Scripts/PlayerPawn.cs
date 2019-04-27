@@ -19,25 +19,46 @@ public class PlayerPawn : BasePawn
     public string inputHorizontal;
     public string inputVertical;
     public string inputRun;
+    public string TugInput;
     public bool isRunning;
     float dirX;
     float dirY;
 
+    // Animations
+    public BaseAnimator ba;
+    Animator anim;
+    SpriteRenderer sr;
+    bool spriteNorth;
+    bool spriteSouth;
+    bool spriteWest;
+    bool spriteEast;
+
+    // Misc
+    public bool isOwner;
+    public bool isPet;
+
+    public string direction = "South";
+
     public void Start()
     {
-        if (this.gameObject.name == "Player1" || this.gameObject.name == "Player1(Clone)")
+        if (this.gameObject.name == "Player1")
         {
             inputHorizontal = "Horizontal";
             inputVertical = "Vertical";
             inputRun = "Run";
+            TugInput = "Pull";
         }
 
-        if (this.gameObject.name == "Player2" || this.gameObject.name == "Player2(Clone)")
+        if (this.gameObject.name == "Player2")
         {
             inputHorizontal = "Horizontal2";
             inputVertical = "Vertical2";
             inputRun = "Run2";
+            TugInput = "Pull2";
         }
+
+        anim = gameObject.GetComponent<Animator>();
+        sr = gameObject.GetComponent<SpriteRenderer>();
     }
 
     public void Update()
@@ -57,9 +78,37 @@ public class PlayerPawn : BasePawn
             Horizontal(dirX);
         }
 
+        if (direction == "West" && !Input.GetButton(inputHorizontal))
+        {
+            anim.SetBool("is_idle", true);
+            anim.SetBool("is_moving", false);
+            sr.sprite = ba.idleWest;
+        }
+
+        if (direction == "East" && !Input.GetButton(inputHorizontal))
+        {
+            anim.SetBool("is_idle", true);
+            anim.SetBool("is_moving", false);
+            sr.sprite = ba.idleEast;
+        }
+
         if (Input.GetButton(inputVertical))
         {
             Vertical(dirY);
+        }
+
+        if (direction == "North" && !Input.GetButton(inputVertical))
+        {
+            anim.SetBool("is_idle", true);
+            anim.SetBool("is_moving", false);
+            sr.sprite = ba.idleNorth;
+        }
+
+        if (direction == "South" && !Input.GetButton(inputVertical))
+        {
+            anim.SetBool("is_idle", true);
+            anim.SetBool("is_moving", false);
+            sr.sprite = ba.idleSouth;
         }
 
         if (Input.GetButton(inputRun))
@@ -81,12 +130,76 @@ public class PlayerPawn : BasePawn
         {
             currentStamina += 1f;
         }
+
+        if (isOwner)
+        {
+            isPet = false;
+            isOwner = true;
+        }
+        else
+        {
+            isOwner = false;
+            isPet = true;
+        }
+
+        if (isPet)
+        {
+            isPet = true;
+            isOwner = false;
+        }
+        else
+        {
+            isOwner = true;
+            isPet = false;
+        }
+
+
     }
 
     public override void Horizontal(float value)
     {
         if (value != 0)
         {
+            if (dirX > 0)
+            {
+                sr.sprite = ba.moveEast;
+
+                anim.SetBool("is_idle", false);
+                anim.SetBool("is_moving", true);
+
+                anim.SetBool("north", false);
+                anim.SetBool("west", false);
+                anim.SetBool("east", true);
+                anim.SetBool("south", false);
+
+                spriteNorth = false;
+                spriteSouth = false;
+                spriteWest = false;
+                spriteEast = true;
+
+                direction = "East";
+            }
+
+            if (dirX < 0)
+            {
+                sr.sprite = ba.moveWest;
+
+                anim.SetBool("is_idle", false);
+                anim.SetBool("is_moving", true);
+
+                anim.SetBool("north", false);
+                anim.SetBool("west", true);
+                anim.SetBool("east", false);
+                anim.SetBool("south", false);
+
+                spriteNorth = false;
+                spriteSouth = false;
+                spriteWest = false;
+                spriteEast = true;
+
+                direction = "West";
+            }
+
             if (isRunning)
             {
                 if (currentStamina >= 1f)
@@ -110,6 +223,46 @@ public class PlayerPawn : BasePawn
     {
         if (value != 0)
         {
+            if (dirY > 0)
+            {
+                sr.sprite = ba.moveNorth;
+
+                anim.SetBool("is_idle", false);
+                anim.SetBool("is_moving", true);
+
+                anim.SetBool("north", true);
+                anim.SetBool("west", false);
+                anim.SetBool("east", false);
+                anim.SetBool("south", false);
+
+                spriteNorth = true;
+                spriteSouth = false;
+                spriteWest = false;
+                spriteEast = false;
+
+                direction = "North";
+            }
+
+            if (dirY < 0)
+            {
+                sr.sprite = ba.moveSouth;
+
+                anim.SetBool("is_idle", false);
+                anim.SetBool("is_moving", true);
+
+                anim.SetBool("north", false);
+                anim.SetBool("west", false);
+                anim.SetBool("east", false);
+                anim.SetBool("south", true);
+
+                spriteNorth = false;
+                spriteSouth = true;
+                spriteWest = false;
+                spriteEast = false;
+
+                direction = "South";
+            }
+
             if (isRunning)
             {
                 if (currentStamina >= 1f)
@@ -132,6 +285,8 @@ public class PlayerPawn : BasePawn
     public void TakeDamage(float damageAmount)
     {
         currentHealth -= damageAmount;
+        sr.color = Color.red;
+        sr.color = Color.white;
 
         if (currentHealth <= 0)
         {
@@ -141,7 +296,6 @@ public class PlayerPawn : BasePawn
 
     public void checkDeath()
     {
-        //_controller.RequestSpectate();
         Destroy(gameObject);
     }
 }

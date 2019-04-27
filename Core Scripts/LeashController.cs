@@ -7,20 +7,19 @@ public class LeashController : MonoBehaviour
     public GameObject playerOne;
     public GameObject playerTwo;
 
+    public Game g;
+
     public float playerDistance;
     public float maxDistancePositive;
     public float maxDistanceNegative;
 
     void Update()
     {
-        playerDistance = Vector2.Distance(playerOne.transform.position, playerTwo.transform.position);
-
+        playerDistance = Vector2.Distance(g._player1Instance.transform.position, g._player2Instance.transform.position);
 
         if (playerDistance >= maxDistancePositive || playerDistance <= maxDistanceNegative)
         {
-            Debug.Log(playerDistance);
-
-            playerTwo.transform.position = playerOne.transform.position;
+            g._player2Instance.transform.position = g._player1Instance.transform.position;
         }
     }
 }

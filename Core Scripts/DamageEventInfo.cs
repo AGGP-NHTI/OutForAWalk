@@ -17,10 +17,17 @@ public class DamageEventInfo : BaseInfo
 
     public Game g;
 
+    public void Awake()
+    {
+        _player1Instance = g._player1Instance;
+        _player2Instance = g._player2Instance;
+
+        DamageType = gameObject.AddComponent<BaseDamageType>();
+    }
 
     public DamageEventInfo()
     {
-        DamageType = new BaseDamageType();
+        
     }
 
     public DamageEventInfo(Type ThisDamageType)

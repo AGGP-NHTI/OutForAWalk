@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerHealth2 : MonoBehaviour
 {
     public DamageEventInfo dam;
+    public Game g;
 
     public void Update()
     {
