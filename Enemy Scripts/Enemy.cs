@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     public float speed = 0.8f;
     private Transform Target;
 
-    public Transform Target1 { get => Target; set => Target = value; };
+    public Transform Target1 { get => Target; set => Target = value; }
 
     // Update is called once per frame
     void Update()
