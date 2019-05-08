@@ -19,15 +19,20 @@ public class EnemyController : EnemyActor
     public float outOfVisionRange = 10f;
     public bool isShooter = false;
     public float shootRange = 5;
+    public float SpawnDistance = .25f; 
     float distanceToSeenGO;
 
-    float timer = 0f;
+    
+    float shootTimer = 0f;
     public float shootRate = 2f;
+    public bool CanShoot = true; 
+
+
     public bool useActorsOnly = true;
 
     public GameObject SeenPlayerGO; // Game Object
     public Pawn SeenPlayerPawn; // Pawn Object
-    public GameObject shootPos;
+    Vector2 shootPos;
     public GameObject shootPreFab;
 
     public float speed;
@@ -210,6 +215,11 @@ public class EnemyController : EnemyActor
         //    SetState(ThinkPatrol);
         //    return;
         //}
+        distanceToSeenGO = Vector2.Distance(transform.position, SeenPlayerGO.transform.position);
+
+        DistanceSeenGO = distanceToSeenGO;
+
+
 
         if (distanceToSeenGO >= shootRange)
         {
@@ -222,7 +232,7 @@ public class EnemyController : EnemyActor
         // check shoot Range
         // if in range, shoot
         // Else return to ThinkSee
-        if (Vector2.Distance(transform.position, SeenPlayerGO.transform.position) <= shootRange)
+        if (distanceToSeenGO <= shootRange)
         {
             Shoot();
         }
@@ -230,16 +240,40 @@ public class EnemyController : EnemyActor
         {
             SetState(ThinkSee);
         }
-
     }
 
     
     protected void Shoot()
     {
-        GameObject newObj = Instantiate(shootPreFab, shootPos.transform.position, shootPos.transform.rotation);
-        
-        //****TO DO  TO DO  TO DO****
-        // Set Projectile move at player
+        if (CanShoot)
+        { 
+
+
+        Vector3 DirVect = (SeenPlayerGO.transform.position - gameObject.transform.position).normalized;
+        //   float angle = (Mathf.Rad2Deg * Mathf.Atan2(DirVect.y, DirVect.x));
+        // Vector3 vRotation = new Vector3(0, 0, angle);
+        //Quaternion qRotation = Quaternion.Euler(vRotation);
+
+        shootPos = gameObject.transform.position + (SpawnDistance * DirVect);
+
+        GameObject newObj = Instantiate(shootPreFab, shootPos, Quaternion.identity);
+        BulletScript bs = newObj.GetComponent<BulletScript>();
+        bs.moveDir = DirVect;
+            //bs.rb.velocity = (DirVect * bs.moveSpeed);     
+
+            //****TO DO  TO DO  TO DO****
+            // Set Projectile move at player
+            CanShoot = false;
+        } 
+        else
+        {
+            shootTimer += Time.deltaTime; 
+            if (shootTimer > shootRate)
+            {
+                CanShoot = true;
+                shootTimer = 0; 
+            }
+        }
     }
 
     /*
