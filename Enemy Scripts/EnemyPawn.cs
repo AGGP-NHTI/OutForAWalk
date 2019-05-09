@@ -6,11 +6,10 @@ public class EnemyPawn : EnemyActor
 {
     public const float maxHealth = 100f;
     public float currentHealth = maxHealth;
+    public bool damageOnTouch = true;
 
     Animator anim;
     public RuntimeAnimatorController slimeAnims;
-
-    string direction = "South";
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +26,23 @@ public class EnemyPawn : EnemyActor
             checkDeath();
             Debug.Log(gameObject.name + " is dead.");
         }
+    }
 
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+                if (damageOnTouch)
+        {
+            PlayerPawn pp = collision.GetComponentInParent<PlayerPawn>();
+            if (pp)
+            {
+                if(pp.isDead)
+                {
+                    return;
+                }
+                Debug.Log("I'm hurting " + collision.name + "!");
+                pp.TakeDamage(1);
+            }
+        }
     }
 
     public void TakeDamage(float damageAmount)

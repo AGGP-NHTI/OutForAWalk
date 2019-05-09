@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyController : EnemyActor
+public class EnemyController : EnemyPawn
 {
    
     public delegate void ThinkFunction();
@@ -86,7 +86,10 @@ public class EnemyController : EnemyActor
             HasEnteredState = false;
         }
 
-        UpdatePatrol();
+        if (PathPoints.Length > 1)
+        {
+            UpdatePatrol();
+        }
 
         // vison control sees a playerpawn object
         SeenList = vc.PerformVision();
@@ -96,10 +99,13 @@ public class EnemyController : EnemyActor
 
             if (pawn)
             {
-                SeenPlayerPawn = pawn; 
-                SeenPlayerGO = g; 
-                SetState(ThinkSee);
-                return; 
+                if (!pawn.isDead)
+                {
+                    SeenPlayerPawn = pawn;
+                    SeenPlayerGO = g;
+                    SetState(ThinkSee);
+                    return;
+                }
             }
         }
     }
@@ -141,6 +147,16 @@ public class EnemyController : EnemyActor
         {
             SetState(ThinkPatrol);
         }
+
+        PlayerPawn pp = SeenPlayerGO.GetComponentInParent<PlayerPawn>();
+        if (pp.isDead)
+        {
+            SeenPlayerGO = null;
+            SeenPlayerPawn = null;
+            SetState(ThinkPatrol);
+            return;
+        }
+
 
         MoveToPlayer();
 

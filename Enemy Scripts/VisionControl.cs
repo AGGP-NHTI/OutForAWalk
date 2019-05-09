@@ -83,9 +83,13 @@ public class VisionControl : MonoBehaviour
             {
                 if (a)
                 {
-                    //Debug.Log(gameObject.name + " sees " + a.gameObject.name);
-                    //its an actor... hurray! '
-                    hitlist.Add(a.gameObject);
+                    if (!a.isDead)
+                    {
+                        //Debug.Log(gameObject.name + " sees " + a.gameObject.name);
+                        //its an actor... hurray! '
+                        // And they're alive!
+                        hitlist.Add(a.gameObject);
+                    }
                 }
                 else
                 {
