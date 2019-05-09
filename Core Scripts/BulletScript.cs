@@ -10,6 +10,8 @@ public class BulletScript : MonoBehaviour
     public float lifetime = 15f;
     public Rigidbody2D rb;
 
+    public float damage = 25f;
+
     // Use this for initialization
     void Start()
     {
@@ -28,8 +30,19 @@ public class BulletScript : MonoBehaviour
     {
         if (other.name != gameObject.name)
         {
-            Debug.Log(other.name);
-            Destroy(gameObject);
+            PlayerPawn pp = other.GetComponentInParent<PlayerPawn>();
+            EnemyPawn ep = other.GetComponentInParent<EnemyPawn>();
+            if(pp)
+            {
+                Debug.Log("Hit Player");
+                pp.TakeDamage(damage);
+                Debug.Log(other.name);
+                Destroy(gameObject);
+            }
+            else if(ep)
+            {
+                return;
+            }
         }
     }
 }
