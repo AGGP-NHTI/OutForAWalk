@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class LeashController : MonoBehaviour
 {
-    public GameObject playerOne;
-    public GameObject playerTwo;
-
     public Game g;
 
     public float playerDistance;
     public float maxDistancePositive;
     public float maxDistanceNegative;
+
+    Vector2 relativePos;
 
     void Update()
     {
@@ -19,7 +18,23 @@ public class LeashController : MonoBehaviour
 
         if (playerDistance >= maxDistancePositive || playerDistance <= maxDistanceNegative)
         {
-            g._player2Instance.transform.position = g._player1Instance.transform.position;
+            if (g.PP1.isRunning)
+            {
+                g._player2Instance.transform.position = Vector3.Lerp(g._player2Instance.transform.position, g._player1Instance.transform.position, Time.deltaTime);
+            }
+            else
+            {
+                g._player1Instance.transform.position = Vector3.Lerp(g._player1Instance.transform.position, g._player2Instance.transform.position, Time.deltaTime);
+            }
+
+            if (g.PP2.isRunning)
+            {
+                g._player1Instance.transform.position = Vector3.Lerp(g._player1Instance.transform.position, g._player2Instance.transform.position, Time.deltaTime);
+            }
+            else
+            {
+                g._player2Instance.transform.position = Vector3.Lerp(g._player2Instance.transform.position, g._player1Instance.transform.position, Time.deltaTime);
+            }
         }
     }
 }

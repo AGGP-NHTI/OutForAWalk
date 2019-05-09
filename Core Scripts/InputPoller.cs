@@ -76,7 +76,7 @@ public class InputPoller : BaseInfo
         IS.AddAxis("Horizontal", Input.GetAxis("Horizontal"));
         IS.AddAxis("Vertical", Input.GetAxis("Vertical"));
         IS.AddButton("Fire1", Input.GetButton("Fire1"));
-        // IS.AddButton("Fire2", Input.GetButton("Fire2"));
+        IS.AddButton("Fire2", Input.GetButton("Fire2"));
         // IS.AddButton("Fire3", Input.GetButton("Fire3"));
         // IS.AddButton("Fire4", Input.GetButton("Fire4"));
         return IS;

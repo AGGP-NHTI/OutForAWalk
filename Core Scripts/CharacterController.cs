@@ -124,7 +124,7 @@ public class CharacterController : Controller
     {
         if (value)
         {
-            //LOG("Del-Fire1");
+            LOG("Del-Fire1");
         }
     }
 
@@ -132,7 +132,7 @@ public class CharacterController : Controller
     {
         if (value)
         {
-            //LOG("Del-Fire2");
+            LOG("Del-Fire2");
         }
     }
 
@@ -140,7 +140,7 @@ public class CharacterController : Controller
     {
         if (value)
         {
-            //LOG("Del-Fire3");
+            LOG("Del-Fire3");
         }
     }
 
@@ -148,7 +148,7 @@ public class CharacterController : Controller
     {
         if (value)
         {
-            //LOG("Del-Fire4");
+            LOG("Del-Fire4");
         }
     }
 
@@ -156,7 +156,7 @@ public class CharacterController : Controller
     {
         if (value)
         {
-            //LOG("Running");
+            LOG("Running");
         }
     }
 }

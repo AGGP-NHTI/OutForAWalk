@@ -12,6 +12,8 @@ public class DamageEventInfo : BaseInfo
     public bool p2Damage = false;
     public BaseDamageType DamageType;
 
+
+    // Detect Player BS
     public GameObject _player1Instance;
     public GameObject _player2Instance;
 
@@ -23,6 +25,11 @@ public class DamageEventInfo : BaseInfo
         _player2Instance = g._player2Instance;
 
         DamageType = gameObject.AddComponent<BaseDamageType>();
+    }
+
+    public void Update()
+    {
+        
     }
 
     public DamageEventInfo()
